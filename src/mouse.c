@@ -189,6 +189,32 @@ MMPoint getMousePos()
 #endif
 }
 
+bool isMouseButtonPressed(const char * const b) {
+	#if defined(IS_MACOSX)
+		return false;
+	#elif defined(USE_X11)
+		return false;
+	#elif defined(IS_WINDOWS)
+		int buttonKey = -1;
+
+		if (strcmp(b, "left") == 0) {
+			buttonKey = GetSystemMetrics(SM_SWAPBUTTON) == true ? VK_RBUTTON : VK_LBUTTON;
+		} else if (strcmp(b, "right") == 0) {
+			buttonKey = GetSystemMetrics(SM_SWAPBUTTON) == true ? VK_LBUTTON : VK_RBUTTON;
+		} else if (strcmp(b, "middle") == 0) {
+			buttonKey = VK_MBUTTON;
+		}
+
+		if (buttonKey == -1) {
+			return false;
+		}
+
+		return GetAsyncKeyState(buttonKey) < 0 ? true : false;
+	#endif
+
+	return false;
+}
+
 /**
  * Press down a button, or release it.
  * @param down   True for down, false for up.

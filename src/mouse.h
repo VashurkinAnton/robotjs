@@ -84,6 +84,11 @@ bool smoothlyMoveMouse(MMPoint point,double speed);
 /* Returns the coordinates of the mouse on the current screen. */
 MMPoint getMousePos(void);
 
+/* Returns the state of mouse button: true - pressed, false - released.
+ *
+ * Possible input values: "left", "right" or "middle". */
+bool isMouseButtonPressed(const char * const b);
+
 /* Holds down or releases the mouse with the given button in the current
  * position. */
 void toggleMouse(bool down, MMMouseButton button);

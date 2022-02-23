@@ -149,6 +149,16 @@ NAN_METHOD(getMousePos)
 	info.GetReturnValue().Set(obj);
 }
 
+NAN_METHOD(isMouseButtonPressed)
+{
+	v8::String::Utf8Value bstr(v8::Isolate::GetCurrent(), Nan::To<v8::String>(info[0]).ToLocalChecked());
+	const char * const b = *bstr;
+
+	bool state = isMouseButtonPressed(b);
+
+	info.GetReturnValue().Set(Nan::New(state));
+}
+
 NAN_METHOD(mouseClick)
 {
 	MMMouseButton button = LEFT_BUTTON;
@@ -881,6 +891,9 @@ NAN_MODULE_INIT(InitAll)
 
 	Nan::Set(target, Nan::New("getMousePos").ToLocalChecked(),
 		Nan::GetFunction(Nan::New<FunctionTemplate>(getMousePos)).ToLocalChecked());
+
+	Nan::Set(target, Nan::New("isMouseButtonPressed").ToLocalChecked(),
+		Nan::GetFunction(Nan::New<FunctionTemplate>(isMouseButtonPressed)).ToLocalChecked());
 
 	Nan::Set(target, Nan::New("mouseClick").ToLocalChecked(),
 		Nan::GetFunction(Nan::New<FunctionTemplate>(mouseClick)).ToLocalChecked());
